@@ -1,0 +1,576 @@
+ 		
+
+	MongoDB Lab Questions
+
+
+1.Create the below tables, insert suitable tuples and perform the following  operations using  MongoDB
+EMPLOYEE (SSN, Name, DeptNo)
+ASSIGNED_TO (USN , ProjectNo) 
+a.List all the employees of department “XYZ”.
+b.Name the employees working on Project Number :#PNo
+
+
+
+Solution
+
+Create the collection:
+db.createCollection("EMPLOYEE")
+
+Inserting the values:
+
+>db.EMPLOYEE.insert({"SSN":4567,"Name":'James',"DeptNo":'XYZ',"ProjectNo":101})
+>db.EMPLOYEE.insert({"SSN":3256,"Name":'Jack',"DeptNo":'XYZ',"ProjectNo":102})
+>db.EMPLOYEE.insert({"SSN":7894,"Name":'Chris',"DeptNo":'ABC',"ProjectNo":103})
+>db.EMPLOYEE.insert({"SSN":4587,"Name":'dwayne',"DeptNo":'DEF',"ProjectNo":104})
+>db.EMPLOYEE.insert({"SSN":6644,"Name":'trump',"DeptNo":'DEF',"ProjectNo":104})
+ 
+
+>db.EMPLOYEE.find().pretty()
+
+
+Output:
+
+{
+	"_id" : ObjectId("5a0d89cfd11053b18180fda7"),
+	"SSN" : 4567,
+	"Name" : "James",
+	"DeptNo" : "XYZ",
+	"ProjectNo" : 101
+}
+{
+	"_id" : ObjectId("5a0d8a15d11053b18180fda8"),
+	"SSN" : 3256,
+	"Name" : "Jack",
+	"DeptNo" : "XYZ",
+	"ProjectNo" : 102
+}
+{
+	"_id" : ObjectId("5a0d8a46d11053b18180fda9"),
+	"SSN" : 7894,
+	"Name" : "Chris",
+	"DeptNo" : "ABC",
+	"ProjectNo" : 103
+}
+{
+	"_id" : ObjectId("5a0d8a73d11053b18180fdaa"),
+	"SSN" : 4587,
+	"Name" : "dwayne",
+	"DeptNo" : "DEF",
+	"ProjectNo" : 104
+}
+{
+	"_id" : ObjectId("5a0d8b04d11053b18180fdab"),
+	"SSN" : 6644,
+	"Name" : "trump",
+	"DeptNo" : "DEF",
+	"ProjectNo" : 104
+}
+a.List all the employees of department “XYZ”.
+
+>db.EMPLOYEE.find({"DeptNo":'XYZ'}).pretty()
+
+Output:
+
+
+{
+	"_id" : ObjectId("5a0d89cfd11053b18180fda7"),
+	"SSN" : 4567,
+	"Name" : "James",
+	"DeptNo" : "XYZ",
+	"ProjectNo" : 101
+}
+{
+	"_id" : ObjectId("5a0d8a15d11053b18180fda8"),
+	"SSN" : 3256,
+	"Name" : "Jack",
+	"DeptNo" : "XYZ",
+	"ProjectNo" : 102
+}
+
+
+b.Name the employees working on Project Number :104
+
+>db.EMPLOYEE.find({"ProjectNo":104}).pretty()
+
+Output:
+
+{
+	"_id" : ObjectId("5a0d8a73d11053b18180fdaa"),
+	"SSN" : 4587,
+	"Name" : "dwayne",
+	"DeptNo" : "DEF",
+	"ProjectNo" : 104
+}
+{
+	"_id" : ObjectId("5a0d8b04d11053b18180fdab"),
+	"SSN" : 6644,
+	"Name" : "trump",
+	"DeptNo" : "GHI",
+	"ProjectNo" : 104
+}
+
+
+
+2.
+Create the below tables, insert suitable tuples and perform the following operations using  MongoDB
+PART (PNO,PNAME, COLOUR), 
+SUPPY (SNO, SNAME, PNO, ADDRESS)
+a.Update the parts identifier 
+b.Display all suppliers who supply the part with part identifier: #PNO
+
+
+Solution:
+
+Create the collection:
+ >db.createCollection("WAREHOUSE")
+
+Inserting the values:
+
+>db.WAREHOUSE.insert({"PNO":1947,"Pname":'bolts',"Colour":'Black',"SNO":1234,"Sname":'ABC',"Address":'blore'})
+>db.WAREHOUSE.insert({"PNO":1950,"Pname":'chain',"Colour":'Blue',"SNO":4567,"Sname":'DEF',"Address":'chen'})
+>db.WAREHOUSE.insert({"PNO":1950,"Pname":'chain',"Colour":'Blue',"SNO":3964,"Sname":'GHI',"Address":'mum'})
+>db.WAREHOUSE.insert({"PNO":1919,"Pname":'wheel',"Colour":'White',"SNO":4879,"Sname":'PQR',"Address":'delhi'})
+>db.WAREHOUSE.insert({"PNO":1956,"Pname":'nuts',"Colour":'Black',"SNO":9988,"Sname":'STU',"Address":'kol'})
+
+
+
+>db.WAREHOUSE.find().pretty()
+
+{
+	"_id" : ObjectId("5a0d8f25d11053b18180fdac"),
+	"PNO" : 1947,
+	"Pname" : "bolts",
+	"Colour" : "Black",
+	"SNO" : 1234,
+	"Sname" : "ABC",
+	"Address" : "blore"
+}
+{
+	"_id" : ObjectId("5a0d8f5bd11053b18180fdad"),
+	"PNO" : 1950,
+	"Pname" : "chain",
+	"Colour" : "Blue",
+	"SNO" : 4567,
+	"Sname" : "DEF",
+	"Address" : "chen"
+}
+{
+	"_id" : ObjectId("5a0d8f81d11053b18180fdae"),
+	"PNO" : 1950,
+	"Pname" : "chain",
+	"Colour" : "Blue",
+	"SNO" : 3964,
+	"Sname" : "GHI",
+	"Address" : "mum"
+}
+{
+	"_id" : ObjectId("5a0d8faed11053b18180fdaf"),
+	"PNO" : 1919,
+	"Pname" : "wheel",
+	"Colour" : "White",
+	"SNO" : 4879,
+	"Sname" : "PQR",
+	"Address" : "delhi"
+}
+{
+	"_id" : ObjectId("5a0d8fded11053b18180fdb0"),
+	"PNO" : 1956,
+	"Pname" : "nuts",
+	"Colour" : "Black",
+	"SNO" : 9988,
+	"Sname" : "STU",
+	"Address" : "kol"
+}
+
+
+a.Update the parts identifier 
+
+
+>db.WAREHOUSE.update({"PNO":1950},{$set:{"PNO":2017}},{multi:true})
+
+>db.WAREHOUSE.find().pretty()
+
+Output:
+{
+	"_id" : ObjectId("5a0d8f25d11053b18180fdac"),
+	"PNO" : 1947,
+	"Pname" : "bolts",
+	"Colour" : "Black",
+	"SNO" : 1234,
+	"Sname" : "ABC",
+	"Address" : "blore"
+}
+{
+	"_id" : ObjectId("5a0d8f5bd11053b18180fdad"),
+	"PNO" : 2017,
+	"Pname" : "chain",
+	"Colour" : "Blue",
+	"SNO" : 4567,
+	"Sname" : "DEF",
+	"Address" : "chen"
+}
+{
+	"_id" : ObjectId("5a0d8f81d11053b18180fdae"),
+	"PNO" : 2017,
+	"Pname" : "chain",
+	"Colour" : "Blue",
+	"SNO" : 3964,
+	"Sname" : "GHI",
+	"Address" : "mum"
+}
+{
+	"_id" : ObjectId("5a0d8faed11053b18180fdaf"),
+	"PNO" : 1919,
+	"Pname" : "wheel",
+	"Colour" : "White",
+	"SNO" : 4879,
+	"Sname" : "PQR",
+	"Address" : "delhi"
+}
+{
+	"_id" : ObjectId("5a0d8fded11053b18180fdb0"),
+	"PNO" : 1956,
+	"Pname" : "nuts",
+	"Colour" : "Black",
+	"SNO" : 9988,
+	"Sname" : "STU",
+	"Address" : "kol"
+}
+
+
+b.Display all suppliers who supply the part with part identifier: 2017
+
+
+>db.WAREHOUSE.find({"PNO":2017}).pretty()
+
+
+Output:
+{
+	"_id" : ObjectId("5a0d8f5bd11053b18180fdad"),
+	"PNO" : 2017,
+	"Pname" : "chain",
+	"Colour" : "Blue",
+	"SNO" : 4567,
+	"Sname" : "DEF",
+	"Address" : "chen"
+}
+{
+	"_id" : ObjectId("5a0d8f81d11053b18180fdae"),
+	"PNO" : 2017,
+	"Pname" : "chain",
+	"Colour" : "Blue",
+	"SNO" : 3964,
+	"Sname" : "GHI",
+	"Address" : "mum"
+}
+
+
+
+3.Create the below tables, insert suitable tuples and perform the following operations using  MongoDB
+BOAT (BID, BNAME, COLOUR)
+RESERVES (BID, SNAME, SID, DAY)
+a.Obtain the number of boats obtained by sailor :#sname
+b.Retrieve boats of color :”White”
+Solution:
+Create the collection:db.createCollection("BOATRES")
+Insert the values:
+db.BOATRES.insert({"BID":9988,"BNAME":'ABC',"COLOUR":'Black',"SNAME":'John',"SID":1234,"DAY":'2017-12-25'})
+ db.BOATRES.insert({"BID":8877,"BNAME":'DEF',"COLOUR":'Black',"SNAME":'Smith',"SID":4567,"DAY":'2017-11-24'})
+db.BOATRES.insert({"BID":7766,"BNAME":'GHI',"COLOUR":'Blue',"SNAME":'Sucre',"SID":1122,"DAY":'2017-10-24'})
+db.BOATRES.insert({"BID":6655,"BNAME":'PQR',"COLOUR":'white',"SNAME":'Sucre',"SID":1122,"DAY":'2017-10-29'})
+
+ db.BOATRES.find().pretty()
+
+
+{
+	"_id" : ObjectId("5a0d946fd11053b18180fdb5"),
+	"BID" : 9988,
+	"BNAME" : "ABC",
+	"COLOUR" : "Black",
+	"SNAME" : "John",
+	"SID" : 1234,
+	"DAY" : "2017-12-25"
+}
+{
+	"_id" : ObjectId("5a0d949ed11053b18180fdb6"),
+	"BID" : 8877,
+	"BNAME" : "DEF",
+	"COLOUR" : "Black",
+	"SNAME" : "Smith",
+	"SID" : 4567,
+	"DAY" : "2017-11-24"
+}
+{
+	"_id" : ObjectId("5a0d94ccd11053b18180fdb7"),
+	"BID" : 7766,
+	"BNAME" : "GHI",
+	"COLOUR" : "Blue",
+	"SNAME" : "Sucre",
+	"SID" : 1122,
+	"DAY" : "2017-10-24"
+}
+{
+	"_id" : ObjectId("5a0d94f7d11053b18180fdb8"),
+	"BID" : 6655,
+	"BNAME" : "PQR",
+	"COLOUR" : "white",
+	"SNAME" : "Sucre",
+	"SID" : 1122,
+	"DAY" : "2017-10-29"
+}
+
+a.Obtain the number of boats obtained by sailor :Sucre
+db.BOATRES.find({"SNAME":'Sucre'}).count()
+Output:2
+
+
+b.Retrieve boats of color :”Black”
+
+db.BOATRES.find({"COLOUR":'Black'}).pretty()
+Output:
+{
+	"_id" : ObjectId("5a0d946fd11053b18180fdb5"),
+	"BID" : 9988,
+	"BNAME" : "ABC",
+	"COLOUR" : "Black",
+	"SNAME" : "John",
+	"SID" : 1234,
+	"DAY" : "2017-12-25"
+}
+{
+	"_id" : ObjectId("5a0d949ed11053b18180fdb6"),
+	"BID" : 8877,
+	"BNAME" : "DEF",
+	"COLOUR" : "Black",
+	"SNAME" : "Smith",
+	"SID" : 4567,
+	"DAY" : "2017-11-24"
+}
+
+4.
+Create the below tables, insert suitable tuples
+and perform the following operations using  MongoDB
+PART (PNO, PNAME, COLOUR)
+SHIPMENT (PNO, WNO, WNAME, QUANTITY, DATE)
+a.Find the parts shipped from warehouse :Wname”
+b.List the total quantity supplied from each warehouse 
+
+
+
+
+
+Create the collection:
+>db.createCollection("SHIPMENT")
+
+
+Insert the values:
+>db.SHIPMENT.insert({"PNO":11,"PNAME":'bolts',"COLOUR":'Black',"WNO":99,"WNAME":'ABC',"QUANTITY":45,"DATE":'2017-09-25'})
+>db.SHIPMENT.insert({"PNO":12,"PNAME":'nuts',"COLOUR":'Black',"WNO":99,"WNAME":'ABC',"QUANTITY":38,"DATE":'2017-09-28'})
+>db.SHIPMENT.insert({"PNO":13,"PNAME":'chain',"COLOUR":'white',"WNO":97,"WNAME":'DEF',"QUANTITY":68,"DATE":'2017-08-28'})
+>db.SHIPMENT.insert({"PNO":14,"PNAME":'bolts',"COLOUR":'Black',"WNO":88,"WNAME":'PQR',"QUANTITY":10,"DATE":'2017-01-25'})
+>db.SHIPMENT.insert({"PNO":19,"PNAME":'wheel',"COLOUR":'Blue',"WNO":99,"WNAME":'ABC',"QUANTITY":54,"DATE":'2017-01-01'})
+
+
+
+db.SHIPMENT.find().pretty()
+
+
+{
+	"_id" : ObjectId("5a0d9876d11053b18180fdb9"),
+	"PNO" : 11,
+	"PNAME" : "bolts",
+	"COLOUR" : "Black",
+	"WNO" : 99,
+	"WNAME" : "ABC",
+	"QUANTITY" : 45,
+	"DATE" : "2017-09-25"
+}
+{
+	"_id" : ObjectId("5a0d9898d11053b18180fdba"),
+	"PNO" : 12,
+	"PNAME" : "nuts",
+	"COLOUR" : "Black",
+	"WNO" : 99,
+	"WNAME" : "ABC",
+	"QUANTITY" : 38,
+	"DATE" : "2017-09-28"
+}
+{
+	"_id" : ObjectId("5a0d98bfd11053b18180fdbb"),
+	"PNO" : 13,
+	"PNAME" : "chain",
+	"COLOUR" : "white",
+	"WNO" : 97,
+	"WNAME" : "DEF",
+	"QUANTITY" : 68,
+	"DATE" : "2017-08-28"
+}
+{
+	"_id" : ObjectId("5a0d98e7d11053b18180fdbc"),
+	"PNO" : 14,
+	"PNAME" : "bolts",
+	"COLOUR" : "Black",
+	"WNO" : 88,
+	"WNAME" : "PQR",
+	"QUANTITY" : 10,
+	"DATE" : "2017-01-25"
+}
+{
+	"_id" : ObjectId("5a0d991bd11053b18180fdbd"),
+	"PNO" : 19,
+	"PNAME" : "wheel",
+	"COLOUR" : "Blue",
+	"WNO" : 99,
+	"WNAME" : "ABC",
+	"QUANTITY" : 54,
+	"DATE" : "2017-01-01"
+}
+
+a.Find the parts shipped from warehouse :"ABC"
+
+>db.SHIPMENT.find({"WNAME":'ABC'}).pretty()
+  OUTPUT:
+
+
+{
+	"_id" : ObjectId("5a0d9876d11053b18180fdb9"),
+	"PNO" : 11,
+	"PNAME" : "bolts",
+	"COLOUR" : "Black",
+	"WNO" : 99,
+	"WNAME" : "ABC",
+	"QUANTITY" : 45,
+	"DATE" : "2017-09-25"
+}
+{
+	"_id" : ObjectId("5a0d9898d11053b18180fdba"),
+	"PNO" : 12,
+	"PNAME" : "nuts",
+	"COLOUR" : "Black",
+	"WNO" : 99,
+	"WNAME" : "ABC",
+	"QUANTITY" : 38,
+	"DATE" : "2017-09-28"
+}
+{
+	"_id" : ObjectId("5a0d991bd11053b18180fdbd"),
+	"PNO" : 19,
+	"PNAME" : "wheel",
+	"COLOUR" : "Blue",
+	"WNO" : 99,
+	"WNAME" : "ABC",
+	"QUANTITY" : 54,
+	"DATE" : "2017-01-01"
+}
+
+
+
+b.List the total quantity supplied from each warehouse 
+
+>db.SHIPMENT.aggregate([{ $group:{_id:"$WNAME",total:{$sum:"$QUANTITY"}}}])
+
+  OUTPUT:
+
+
+{ "_id" : "PQR", "total" : 10 }
+{ "_id" : "DEF", "total" : 68 }
+{ "_id" : "ABC", "total" : 137 }
+
+
+
+
+
+
+
+
+5.Create the below tables, insert suitable tuples and perform the following operations using  MongoDB
+BOOK (ISBN, TITLE, AUTHOR, PUBLISHER)
+BORROW (ISBN, USN, DATE)
+a.Obtain the name of the student who has borrowed the book bearing ISBN "123‟ 
+b.Obtain the Names of students who have borrowed database books.
+
+
+
+Solution:
+
+Create the collection:
+>db.createCollection("LIBRARY")
+
+
+Insert the values:
+
+>db.LIBRARY.insert({"ISBN":1122,"TITLE":'datbase',"AUTHOR":'ABC',"PUBLISHER":'selina',"SSN":2015,"date":'2017-05-29'})
+>db.LIBRARY.insert({"ISBN":2233,"TITLE":'datbase',"AUTHOR":'DEF',"PUBLISHER":'mcgraw',"SSN":2016,"date":'2017-06-29' })
+>db.LIBRARY.insert({"ISBN":3344,"TITLE":'dip',"AUTHOR":'GHI',"PUBLISHER":'gonzalez',"SSN":2017,"date":'2016-06-29' })
+>db.LIBRARY.insert({"ISBN":3355,"TITLE":'os',"AUTHOR":'LKB',"PUBLISHER":'pearson',"SSN":2018,"date":'2016-06-01' })
+
+
+>db.LIBRARY.find().pretty()
+
+
+
+
+{
+	"_id" : ObjectId("5a0d9ffcd11053b18180fdbe"),
+	"ISBN" : 1122,
+	"TITLE" : "datbase",
+	"AUTHOR" : "ABC",
+	"PUBLISHER" : "selina",
+	"SSN" : 2015,
+	"date" : "2017-05-29"
+}
+{
+	"_id" : ObjectId("5a0da030d11053b18180fdbf"),
+	"ISBN" : 2233,
+	"TITLE" : "datbase",
+	"AUTHOR" : "DEF",
+	"PUBLISHER" : "mcgraw",
+	"SSN" : 2016,
+	"date" : "2017-06-29"
+}
+{
+	"_id" : ObjectId("5a0da06dd11053b18180fdc0"),
+	"ISBN" : 3344,
+	"TITLE" : "dip",
+	"AUTHOR" : "GHI",
+	"PUBLISHER" : "gonzalez",
+	"SSN" : 2017,
+	"date" : "2016-06-29"
+}
+{
+	"_id" : ObjectId("5a0da0b6d11053b18180fdc1"),
+	"ISBN" : 3355,
+	"TITLE" : "os",
+	"AUTHOR" : "LKB",
+	"PUBLISHER" : "pearson",
+	"SSN" : 2018,
+	"date" : "2016-06-01"
+}
+
+
+a.Obtain the name of the student who has borrowed the book bearing ISBN "1122‟ 
+
+>db.LIBRARY.find({"ISBN":1122},{"SSN":1,_id:0}).pretty()
+
+  OUTPUT:
+          { "SSN" : 2015 }
+
+
+b.Obtain the Names of students who have borrowed database books.
+ 
+>db.LIBRARY.find({"TITLE":'datbase'},{"SSN":1,_id:0}).pretty()
+
+OUTPUT:
+	{ "SSN" : 2015 }
+	{ "SSN" : 2016 }
+
+
+
+
+
+
+
+
+
+
+

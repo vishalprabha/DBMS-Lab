@@ -1,0 +1,351 @@
+
+1)
+create table EMPLOYEE (
+ssn number(3) primary key,
+name varchar (50),
+DeptNo varchar(5));
+
+create table project(
+pno varchar(5) primary key,
+pname varchar(25));
+
+create table assign(
+usn number(3) references employee(ssn),
+pno varchar(5) references project(pno));
+
+insert into   employee values (111,'ABC','D1');
+insert into   employee values (121,'BCD','D2');
+insert into   employee values (131,'CDE','D2');
+insert into   employee values (141,'DEF','D3');
+insert into   employee values (151,'EFG','D3');
+
+insert into project values ('P1','Database');
+insert into project values ('P2','Cloud');
+insert into project values ('P3','IOT');
+insert into project values ('P4','Analytics');
+
+insert into assign values (111,'P1');
+insert into assign values (121,'P1');
+insert into assign values (121,'P2');
+insert into assign values (131,'P1');
+insert into assign values (131,'P2');
+insert into assign values (131,'P3');
+insert into assign values (141,'P1');
+insert into assign values (141,'P4');
+
+
+i)
+select usn 
+from assign,project
+where assign.pno=project.pno and project.pname='Database';
+
+USN
+111
+121
+131
+141
+
+ii)
+select deptno,count(ssn)
+from employee
+group by (deptno);
+
+DEPTN    COUNT(SSN)
+D1 		 1
+
+D3		 2
+
+D2	 	 2
+
+iii)
+update  assign
+set pno='P4'
+where usn=111;
+
+1 row updated
+
+select * from assign;
+
+USN	PNO
+
+111	P4
+121	P1
+121	P2
+131	P1
+131	P2
+131	P3
+141	P1
+141	P4
+
+
+2)
+
+create table PART(
+    pno varchar(3) primary key,
+    pname varchar(20),
+    pcolor varchar(20)
+);
+
+create table SUPPLY(
+    sno varchar(3) primary key,
+    sname varchar(20),
+    saddress varchar(50)
+);
+
+create table supply(
+    sno varchar(3) references suplier(sno) on delete cascade,
+    pno varchar(3) references part(pno) on delete cascade,
+    qty number(4)
+);
+
+insert into part values('P1','Bolt','Green');
+insert into part values('P2','Screw','Green');
+insert into part values('P3','Hex-Bolt','Red');
+insert into part values('P4','Bolt','Gray');
+insert into part values('P5','Wrench','Steel');
+
+insert into suplier values('S1','Ram','BANG');
+insert into suplier values('S2','Tom','CCU');
+insert into suplier values('S3','Sam','MAS');
+insert into suplier values('S4','Jim','BANG');
+
+insert into supply values('S1','P1',200);
+insert into supply values('S1','P4',400);
+insert into supply values('S2','P2',300);
+insert into supply values('S2','P3',250);
+insert into supply values('S3','P3',100);
+insert into supply values('S2','P1',200);
+insert into supply values('S3','P3',200);
+
+i)
+select pno
+from supply ,suplier 
+where supply.sno=suplier.sno and suplier.sname='Ram';
+
+PNO
+P1
+P4
+
+ii)
+select sname
+from supply,suplier
+where supply.sno=suplier.sno and supply.pno IN (select pno from part where pname='Bolt');
+
+SNAME
+Ram
+Ram
+Tom
+
+iii)
+delete from part
+where pcolor='Gray';
+
+1 row deleted
+
+
+
+
+
+
+3)
+
+create table BoatDetail (
+bid number(3) primary key,
+bname varchar (50),
+bcolor varchar(5));
+
+create table sailorDetail(
+sno varchar(5) primary key,
+sname varchar(25),
+age number(3),
+rating varchar(5));
+
+create table reservesdetail(
+bid number(3) references boatdetail(bid) on delete cascade,
+sno varchar(5) references sailordetail(sno) on delete cascade,
+day varchar(15));
+
+insert into   boatdetail values (111,'ABC','Green');
+insert into   boatdetail values (121,'BCD','Red');
+insert into   boatdetail values (131,'CDE','Green');
+insert into   boatdetail values (141,'DEF','Blue');
+insert into   boatdetail values (151,'EFG','Red');
+
+insert into sailordetail values ('S1','Ram',23,'good');
+insert into sailordetail values ('S2','Jam',43,'avg');
+insert into sailordetail values ('S3','Tom',34,'good');
+insert into sailordetail values ('S4','Sam',28,'good');
+
+insert into reservesdetail values (111,'S1','12-02-2017');
+insert into reservesdetail values (121,'S1','23-02-2017');
+insert into reservesdetail values (121,'S2','22-04-2017');
+insert into reservesdetail values (131,'S3','14-06-2017');
+insert into reservesdetail values (131,'S2','16-04-2017');
+insert into reservesdetail values (131,'S3','24-05-2017');
+insert into reservesdetail values (141,'S4','26-06-2017');
+insert into reservesdetail values (141,'S4','18-07-2017');
+
+i)
+select bid
+from reservesdetail,sailordetail
+where reservesdetail.sno=sailordetail.sno and sailordetail.sname='Ram';
+
+BID
+111
+121
+
+ii)
+select distinct(reservesdetail.bid)
+from reservesdetail;
+
+BID
+121
+141
+131
+111
+
+iii)
+
+select sailordetail.sno,count(reservesdetail.bid)
+from sailordetail,reservesdetail
+where sailordetail.sno=reservesdetail.sno
+group by (sailordetail.sno);
+
+or
+
+select sno,count(bid)
+from reservesdetail
+group by sno;
+
+SNO	COUNT(RESERVESDETAIL.BID)
+S3	 2
+S4	 2
+S2	 2
+S1	 2
+
+
+4)
+
+create table warehouse(
+wno number(3) primary key,
+wname varchar(15),
+city varchar(20));
+
+create table shipment(
+pno varchar(3) references part(pno) on delete cascade,
+wno number(3) references warehouse(wno) on delete cascade,
+qty number(3),
+day varchar(15));
+
+insert into warehouse values(111,'blue','bang');
+insert into warehouse values(121,'jam','mas');
+insert into warehouse values(131,'tim','ccu');
+insert into warehouse values(141,'sam','delhi');
+insert into warehouse values(151,'ram','bang');
+
+insert into shipment values('P1',111,300,'12-07-2017');
+insert into shipment values('P1',131,200,'14-08-2017');
+insert into shipment values('P2',121,250,'27-07-2017');
+insert into shipment values('P2',141,350,'11-09-2017');
+insert into shipment values('P3',121,550,'04-07-2017');
+insert into shipment values('P3',131,300,'18-07-2017');
+insert into shipment values('P4',111,300,'16-07-2017');
+
+i)
+
+select wname
+from shipment,warehouse
+where shipment.wno=warehouse.wno and shipment.pno IN (select pno from part where pcolor='Red');
+
+WNAME
+jam
+tim
+
+ii)
+select distinct(pno)
+from shipment;
+
+or
+
+select pno 
+from part
+where pno in (select pno from shipment
+where wno in (select wno from warehouse));
+
+PNO
+P1
+P2
+P3
+
+iii)
+select wno ,count(pno)
+from shipment
+group by (wno);
+
+WNO	COUNT(PNO)
+121	 2
+141	 1
+131	 2
+111	 1
+
+5)
+create table bookdetail(
+ISBN number(3) primary key,
+title varchar(10),
+author varchar(10),
+publisher varchar(10));
+
+create table studdetail(
+usn varchar(3) primary key,
+name varchar(10),
+sem varchar(2),
+deptno varchar(3));
+
+create table lend(
+isbn number(3) references bookdetail(isbn) on delete cascade,
+usn varchar(3) references studdetail(usn) on delete cascade,
+day varchar(15));
+
+insert into bookdetail values(123,'Wings','APJ','safas');
+insert into bookdetail values(223,'harry','j k','asdf');
+insert into bookdetail values(323,'Famous','enid','asfd');
+insert into bookdetail values(423,'Wings','APJ','fgs');
+
+insert into studdetail values('001','abc','5','i01');
+insert into studdetail values('002','xyz','3','i02');
+insert into studdetail values('003','mno','7','i03');
+insert into studdetail values('004','sfdno','7','i04');
+
+insert into lend values(123,'001','2017-11-1');
+insert into lend values(223,'003','2017-11-1');
+insert into lend values(323,'002','2017-11-1');
+insert into lend values(123,'002','2017-11-1');
+
+
+i)
+select name 
+from studdetail ,lend
+where lend.usn=studdetail.usn and lend.isbn='123';
+
+NAME
+abc
+xyz
+
+ii)
+select name
+from studdetail,lend
+where studdetail.usn=lend.usn and lend.isbn in (select isbn from bookdetail where title='Wings');
+
+NAME
+abc
+xyz
+
+iii)
+select usn ,count(isbn)
+from lend
+group by usn;
+
+USN	COUNT(ISBN)
+002	 2
+001	 1
+003	 1
